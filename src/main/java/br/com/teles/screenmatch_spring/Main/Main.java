@@ -9,10 +9,7 @@ import br.com.teles.screenmatch_spring.service.FetchApi;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -65,8 +62,13 @@ public class Main {
         System.out.println("\nTop 5 episódios");
         episodesData.stream()
                 .filter(e -> !e.rate().equalsIgnoreCase("N/A"))
+//                .peek(e -> System.out.println("Primeiro filtro(N/A) " + e))
                 .sorted(Comparator.comparing(EpisodeData::rate).reversed())
+//                .peek(e -> System.out.println("Ordenação " + e))
                 .limit(5)
+//                .peek(e -> System.out.println("limite " + e))
+                .map(e -> e.title().toUpperCase())
+//                .peek(e -> System.out.println("Mapeamento " + e))
                 .forEach(System.out::println);
 
         List<Episode> episodes = seasons.stream()
@@ -75,6 +77,18 @@ public class Main {
                 ).collect(Collectors.toList());
 
         episodes.forEach(System.out::println);
+
+        System.out.println("Digite um trecho do título do episódio: ");
+        var titlePiece = read.nextLine();
+        Optional<Episode> specificEpisode = episodes.stream()
+                .filter(e -> e.getTitle().toUpperCase().contains(titlePiece.toUpperCase()))
+                .findFirst();
+        if (specificEpisode.isPresent()) {
+            System.out.println("Episódio encontrado!");
+            System.out.println("Temporada: " + specificEpisode.get().getSeason());
+        } else {
+            System.out.println("Episódio não encontrado");
+        }
 
         System.out.println("A partir de que ano você deseja ver os episódios? ");
         var year = read.nextInt();

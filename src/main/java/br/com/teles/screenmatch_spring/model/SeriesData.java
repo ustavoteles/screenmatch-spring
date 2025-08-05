@@ -15,7 +15,11 @@ public record SeriesData(
         // @JsonAlias é tipo um apelido: diz que no JSON o nome do campo é "Title", mas aqui no código vai ser "title"
         @JsonAlias("Title") String title,
         @JsonAlias("totalSeasons") Integer totalSeasons,
-        @JsonAlias("imdbRating") String rate
+        @JsonAlias("imdbRating") String rate,
+        @JsonAlias("Genre") String genre,
+        @JsonAlias("Actors") String actors,
+        @JsonAlias("Poster") String poster,
+        @JsonAlias("synopsis") String synopsis
 
         // Se quiser pegar o número de votos do IMDB, descomenta essa linha aqui:
         // @JsonProperty funciona parecido com @JsonAlias, mas é mais direto: ele diz exatamente qual nome
